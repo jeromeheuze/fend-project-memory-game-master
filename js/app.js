@@ -1,7 +1,9 @@
 /*
  * Create a list that holds all of your cards
  */
+const cards = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cube", "fa-leaf", "fa-bicycle", "fa-bomb"];
 
+const ul = document.getElementById("masterdeck");
 
 /*
  * Display the cards on the page
@@ -10,9 +12,21 @@
  *   - add each card's HTML to the page
  */
 
+function displayDeck(array) {
+    let cardOuput = "";
+    for (let card of array) {
+        cardOuput += '<li class="card open show">\n' +
+            '                <i class="fa '+card+'"></i>\n' +
+            '            </li>';
+    }
+    console.log(cardOuput);
+    ul.innerHTML = cardOuput;
+
+}
+
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
-    var currentIndex = array.length, temporaryValue, randomIndex;
+    let currentIndex = array.length, temporaryValue, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -25,6 +39,19 @@ function shuffle(array) {
     return array;
 }
 
+function initDeck() {
+    //create array of cards
+    let cardSet = [...shuffle(cards),...shuffle(cards)];
+    console.log(cardSet);
+
+    //empty deck
+    ul.innerHTML = '';
+
+    displayDeck(cardSet);
+    return false;
+}
+
+initDeck();
 
 /*
  * set up the event listener for a card. If a card is clicked:

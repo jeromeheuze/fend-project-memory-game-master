@@ -5,6 +5,8 @@ const cards = ["fa-diamond", "fa-paper-plane-o", "fa-anchor", "fa-bolt", "fa-cub
 
 let ul = document.getElementById("masterdeck");
 let panelWon = document.getElementsByClassName("game-won");
+let panelWonMoves = document.getElementsByClassName("movesText");
+let counter = document.getElementsByClassName("moves");
 let cardOpen = 0;
 let cardTracker = [];
 let wait = "";
@@ -45,10 +47,12 @@ function shuffle(array) {
 function initDeck() {
     //create array of cards
     let cardSet = [...shuffle(cards)];
-    //console.log(cardSet);
 
     //empty deck
     ul.innerHTML = '';
+
+    //reset moves
+    counter[0].innerText = "0";
 
     //remove win screen
     panelWon[0].classList.remove("show");
@@ -76,44 +80,17 @@ function gameWon() {
 //stars logic
 function starsLogic(moves) {
     let panelStars = document.getElementsByClassName("stars");
-    console.log(panelStars);
+
     let starsValue = "0";
-    if (moves > cards.length / 2) { // 1 star
-        //panelStars[0].children[0].classList.add("fa");
-        panelStars[0].children[0].classList.remove("fa-star-o");
-        panelStars[0].children[0].classList.add("fa-star");
-
-       // panelStars[0].children[1].classList.add("fa");
-        panelStars[0].children[1].classList.add("fa-star-o");
-
-        //panelStars[0].children[2].classList.add("fa");
-        panelStars[0].children[2].classList.add("fa-star-o");
-        starsValue = "1";
-    } else if (moves < cards.length / 2) { // 2 stars
-        //panelStars[0].children[0].classList.add("fa");
-        panelStars[0].children[0].classList.remove("fa-star-o");
-        panelStars[0].children[0].classList.add("fa-star");
-
-        //panelStars[0].children[1].classList.add("fa");
-        panelStars[0].children[1].classList.remove("fa-star-o");
-        panelStars[0].children[1].classList.add("fa-star");
-
-        //panelStars[0].children[2].classList.add("fa");
-        panelStars[0].children[2].classList.add("fa-star-o");
-        starsValue = "2";
-    } else if (moves === cards.length / 2) { // 3 stars
-        //panelStars[0].children[0].classList.add("fa");
-        panelStars[0].children[0].classList.remove("fa-star-o");
-        panelStars[0].children[0].classList.add("fa-star");
-
-        //panelStars[0].children[1].classList.add("fa");
-        panelStars[0].children[1].classList.remove("fa-star-o");
-        panelStars[0].children[1].classList.add("fa-star");
-
-        //panelStars[0].children[2].classList.add("fa");
-        panelStars[0].children[2].classList.remove("fa-star-o");
-        panelStars[0].children[2].classList.add("fa-star");
+    if (moves <= cards.length) { // 3 star
+        panelStars[0].innerHTML = '<li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li>';
         starsValue = "3";
+    } else if (moves <= cards.length && moves > cards.length) { // 2 stars
+        panelStars[0].innerHTML = '<li><i class="fa fa-star"></i></li><li><i class="fa fa-star"></i></li><li><i class="fa fa-star-o"></i></li>';
+        starsValue = "2";
+    } else if (moves > cards.length) { // 1 stars
+        panelStars[0].innerHTML = '<li><i class="fa fa-star"></i></li><li><i class="fa fa-star-o"></i></li><li><i class="fa fa-star-o"></i></li>';
+        starsValue = "1";
     }
 
     let panelWonStars = document.getElementsByClassName("starsText");
@@ -122,13 +99,11 @@ function starsLogic(moves) {
 
 //restart game
 function counterMove() {
-    let counter = document.getElementsByClassName("moves");
     //get current count
     let currentCounter = counter[0].innerHTML;
     currentCounter = parseInt(currentCounter) + 1;
     counter[0].innerText = currentCounter;
     //populate winning screen
-    let panelWonMoves = document.getElementsByClassName("movesText");
     panelWonMoves[0].innerHTML = currentCounter;
     starsLogic(currentCounter);
 }

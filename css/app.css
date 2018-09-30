@@ -169,3 +169,7 @@ h1 {
     position:relative;
     top:1px;
 }
+
+span#timer {
+    margin-left: 20px;
+}
